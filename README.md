@@ -1,6 +1,6 @@
-#Java_probafeladat
+# Java_probafeladat
 
-##Funkciók
+## Funkciók
 - felhasználói fiókok (Név) létrehozása, módosítása, törlése
 - főmenü kialakítása
 - főmenüből nyíló almenü kezelése
