@@ -21,14 +21,21 @@ public class Menu {
     @OneToMany(mappedBy = "menu")
     private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
-    public void addMenuItems (MenuItem menuItem){
+    protected Menu() {}
+    public Menu(String name, User user) {
+        this.name = name;
+        this.user = user;
+    }
+
+    public void addMenuItem (MenuItem menuItem){
         this.menuItems.add(menuItem);
     }
 
     public String getId() {return id;}
     public String getName() {return name;}
+    public User getUser(){return user;}
+
     public void setName(String name){this.name = name;}
     public void setParentMenu(Menu menu) {this.parentMenu = menu;}
-    public User getUser(){return user;}
     public void setUser(User user) {this.user = user;}
 }

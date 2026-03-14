@@ -12,6 +12,8 @@ import service.MenuItemService;
 import service.MenuService;
 import service.UserService;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         SessionFactory factory = new Configuration()
@@ -26,48 +28,41 @@ public class Main {
 
         UserService userService = new UserService(factory);
         MenuService menuService = new MenuService(factory);
-        MenuItemService menuItemService = new MenuItemService(factory);
         ApplicationService applicationService = new ApplicationService(factory);
 
-        User user = new User();
-        user.setName("Gazdag László");
-        userService.createUser(user);
-
-        Application app1 = new Application();
-        app1.setName("Wieldy");
-        Application app2 = new Application();
-        app2.setName("AXAMOP");
-        applicationService.createApplication(app1);
-        applicationService.createApplication(app2);
-
-
-        Menu menu = new Menu();
-        menu.setUser(user);
-        menu.setName("Alkalmazásaim");
-        menuService.createMenu(menu);
-
+        User me = createMe(userService);
+        List<Application> apps = createApplications(applicationService);
+        createMenu(menuService, me, apps);
 
         //A feladat leírásából nem jött át nekem egyértelműen,
         // hogy a MenuItem-en keresztül kell-e hozzáadnom a kedvenc alkalmazásokat.
         //Ha nem, akkor kell Application lista a Menu-be és oda kell hozzáadni
         // a kedvenc alkalmazásokat
-        /*
-        MenuItem menuItem1 = new MenuItem();
-        menuItem1.setName("Munkaerő gazdálkodás");
-        menuItem1.setMenu(menu);
-        menuItem1.setApplication(app1);
-        menuItemService.createMenuItem(menuItem1);
-
-        MenuItem menuItem2 = new MenuItem();
-        menuItem2.setName("Üzemeltetés");
-        menuItem2.setMenu(menu);
-        menuItem2.setApplication(app2);
-        menuItemService.createMenuItem(menuItem2);
-        */
-
-        menuService.addFavouriteApplication(menu.getId(), app1.getId());
-        menuService.addFavouriteApplication(menu.getId(), app2.getId());
 
         factory.close();
+    }
+
+    private static User createMe(UserService userService){
+        User user = new User("Gazdag László");
+        userService.createUser(user);
+        return user;
+    }
+
+    private static List<Application> createApplications(ApplicationService appService){
+        Application app1 = new Application("Wieldy");
+        Application app2 = new Application("AXAMOP");
+        appService.createApplication(app1);
+        appService.createApplication(app2);
+
+        return List.of(app1, app2);
+    }
+
+    private static void createMenu(MenuService menuService, User user, List<Application> apps) {
+        Menu menu = new Menu("Alkalmazásaim", user);
+        menuService.createMenu(menu);
+
+        for (Application app : apps) {
+            menuService.addFavouriteApplication(menu.getId(), app.getId());
+        }
     }
 }

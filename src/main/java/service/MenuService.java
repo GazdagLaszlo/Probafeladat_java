@@ -76,11 +76,8 @@ public class MenuService {
                 Menu menu = session.get(Menu.class, menuId);
                 Application application = session.get(Application.class, applicationId);
                 if(menu != null && application != null) {
-                    MenuItem menuItem = new MenuItem();
+                    MenuItem menuItem = new MenuItem(application.getName(), menu, application);
 
-
-                    menuItem.setMenu(menu);
-                    menuItem.setApplication(application);
                     session.persist(menuItem);
                 }
                 session.getTransaction().commit();

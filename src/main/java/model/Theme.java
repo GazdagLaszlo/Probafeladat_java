@@ -14,7 +14,14 @@ public class Theme {
     @OneToMany(mappedBy = "theme")
     private List<User> users = new ArrayList<User>();
 
+    protected Theme() {}
+    public Theme(String name){
+        this.name = name;
+    }
+
     public String getId() {return id;}
     public String getName() {return name;}
+    public List<User> getUsers() {return users;}
+
     public void setName(String name){this.name = name;}
 }

@@ -20,12 +20,18 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Menu> menus = new ArrayList<Menu>();
 
+    protected User(){}
+    public User(String name){
+        this.name = name;
+    }
+
     public String getId() {return id;};
     public String getName() {return name;}
-    public void setName(String name){this.name = name;}
     public Wallpaper getWallpaper() {return wallpaper;}
-    public void setWallpaper(Wallpaper wallpaper) {this.wallpaper = wallpaper;}
     public Theme getTheme() {return theme;}
-    public void setTheme(Theme theme) {this.theme = theme;}
     public List<Menu> getMenus() {return menus;}
+
+    public void setName(String name){this.name = name;}
+    public void setWallpaper(Wallpaper wallpaper) {this.wallpaper = wallpaper;}
+    public void setTheme(Theme theme) {this.theme = theme;}
 }
